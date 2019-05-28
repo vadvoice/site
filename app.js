@@ -40,8 +40,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+let mongoConnectionURI = '';
+if(process.env.NODE_ENV === 'production') {
+  mongoConnectionURI = process.env.MONGODB_URI
+} else if (process.env.NODE_ENV === 'development') {
+  mongoConnectionURI = `mongodb://${mongoConfig.user}:${mongoConfig.pass}@ds131905.mlab.com:31905/${mongoConfig.db}`
+}
+const parsedURI = path.parse(mongoConnectionURI);
 
-db.mongo.connect(`mongodb://${mongoConfig.user}:${mongoConfig.pass}@ds131905.mlab.com:31905/${mongoConfig.db}`, mongoConfig.db, err => {
+db.mongo.connect(mongoConnectionURI, parsedURI.name, err => {
   if (err) {
     console.error('Unable to connect to Mongo.', err);
     db.mongo.close(err => {

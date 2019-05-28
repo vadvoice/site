@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { env } = process;
 
-module.exports = {
+const config = {
   mongo: {
     user: env.MONGO_USER,
     pass: env.MONGO_PASS,
@@ -10,3 +10,4 @@ module.exports = {
     uri: env.MONGODB_URI
   }
 }
+module.exports = {...config}
