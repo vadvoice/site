@@ -53,7 +53,7 @@ const parsedURI = path.parse(mongoConnectionURI);
 console.log('-----------------------');
 console.log(`mongoConnectionURI:::: ${mongoConnectionURI}, parsedURI.name::: ${parsedURI.name}`);
 
-
+const PORT = process.env.PORT || 3000;
 db.mongo.connect(mongoConnectionURI, parsedURI.name, err => {
   if (err) {
     console.error('Unable to connect to Mongo.', err);
@@ -62,7 +62,8 @@ db.mongo.connect(mongoConnectionURI, parsedURI.name, err => {
     });
     process.exit(1)
   } else {
-    app.listen(3000, function() {
+    
+    app.listen(PORT, function() {
       console.log('Listening on port 3000...')
     })
   }
