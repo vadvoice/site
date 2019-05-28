@@ -50,6 +50,9 @@ if(process.env.NODE_ENV === 'production') {
   mongoConnectionURI = `mongodb://${mongoConfig.user}:${mongoConfig.pass}@ds131905.mlab.com:31905/${mongoConfig.db}`
 }
 const parsedURI = path.parse(mongoConnectionURI);
+console.log('-----------------------');
+console.log(`mongoConnectionURI:::: ${mongoConnectionURI}, parsedURI.name::: ${parsedURI.name}`);
+
 
 db.mongo.connect(mongoConnectionURI, parsedURI.name, err => {
   if (err) {
