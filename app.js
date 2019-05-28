@@ -1,13 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const db = require('./db/index');
+const mongoConfig = require('./config/config').mongo;
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,4 +40,20 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+
+db.mongo.connect(`mongodb://${mongoConfig.user}:${mongoConfig.pass}@ds131905.mlab.com:31905/${mongoConfig.db}`, mongoConfig.db, err => {
+  if (err) {
+    console.error('Unable to connect to Mongo.', err);
+    db.mongo.close(err => {
+      console.log('close error: ', err);
+    });
+    process.exit(1)
+  } else {
+    app.listen(3000, function() {
+      console.log('Listening on port 3000...')
+    })
+  }
+})
+
+// temparary ignore app export
+// module.exports = app;
