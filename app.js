@@ -40,6 +40,9 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+console.log(` SUPET IMPORTANT: ${process.env.NODE_ENV}!!!!!!!!!`);
+console.log({ THIS_IS_CURRENT_ENV: process.env });
 let mongoConnectionURI = '';
 if(process.env.NODE_ENV === 'production') {
   mongoConnectionURI = process.env.MONGODB_URI
